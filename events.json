@@ -67,43 +67,39 @@
     },
     {
       "title": "Karaoke Night",
-      "description": "Sing your heart out with your friends.",
       "image": "https://image.freepik.com/free-vector/group-people-singing-karaoke_23-2148861270.jpg",
-      "startTime": "2023-03-10T22:24",
-      "endTime": "2023-03-11T23:25",
-      "categoryIds": "1,2",
-      "id": 7
+      "categoryIds": [
+        3
+      ],
+      "description": "Sing your heart out with your friends.",
+      "location": "Amsterdam",
+      "startTime": "2023-12-14T16:34:00.000Z",
+      "endTime": "2023-12-22T16:35:00.000Z",
+      "id": 5
     },
     {
-      "title": "Cooking Class",
-      "description": "Learn how to make delicious dishes from different cuisines.",
-      "image": "https://image.freepik.com/free-photo/group-people-cooking-together_53876-64828.jpg",
-      "startTime": "2023-12-08T11:45",
-      "endTime": "2023-12-09T11:46",
-      "categoryIds": "2, 4",
-      "id": 8
-    },
-    {
-      "title": "sheep hugging",
+      "title": "Sheep hugging",
       "image": "https://image.freepik.com/free-photo/group-people-cooking-together_53876-64828.jpg",
       "categoryIds": [
-        1,
-        2
+        3
       ],
-      "startTime": "2023-12-05T13:56:00.000Z",
-      "endTime": "2023-12-06T13:56:00.000Z",
-      "id": 11
+      "description": "Just for test",
+      "location": "Roterdam",
+      "startTime": "2023-12-15T18:11:00.000Z",
+      "endTime": "2023-12-23T18:11:00.000Z",
+      "id": 6
     },
     {
       "title": "Summer",
       "image": "https://image.freepik.com/free-photo/group-people-cooking-together_53876-64828.jpg",
       "categoryIds": [
-        2,
-        4
+        1
       ],
-      "startTime": "2023-12-08T19:10:00.000Z",
-      "endTime": "2023-12-09T19:10:00.000Z",
-      "id": 12
+      "description": "Just for test",
+      "location": "Roterdam",
+      "startTime": "2023-12-27T18:28:00.000Z",
+      "endTime": "2023-12-29T18:28:00.000Z",
+      "id": 7
     }
   ],
   "categories": [

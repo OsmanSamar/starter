@@ -14,66 +14,80 @@ import {
   useToast,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useLoaderData } from "react-router-dom";
+
+export const loader = async ({ params }) => {
+  const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
+
+  return {
+    event: await event.json(),
+  };
+};
 
 export const EditeventModal = () => {
-  // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { event } = useLoaderData(); // gives the event data.
 
-  // add the state and logic for the pop-up modal here
-  const [editEvent, setEditEvent] = useState({
-    title: "",
-    description: "",
-    image: "",
-    startTime: "",
-    endTime: "",
-    categoryIds: [],
-  });
+  // this creates and initializes the state variable with the event data.
+  const [editEventData, setEditEventData] = useState(event);
+  console.log(event);
+
+  // Use the useEffect hook to get the Event data
+  useEffect(() => {
+    setEditEventData(event);
+  }, [event]); // only run the effect when the event changes.
+
+  // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values.
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast(); // call the useToast hook here
 
-  // Use the useEffect hook to set the editEvent state to the event prop
-  useEffect(() => {
-    if (event) {
-      setEditEvent((prev) => ({
-        ...prev,
-        title: event.title,
-        description: event.description,
-        image: event.image,
-        startTime: event.startTime,
-        endTime: event.endTime,
-        categoryIds: event.categoryIds,
-      }));
-    }
-  }, []); // only run the effect on initial render
+  //////////////////////////////////////////////////////////////////////////
+
+  // const [updatedEevent, setupdatedEevent] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default browser behavior
     try {
       // get the data from the form
-      const { title, image, categoryIds, startTime, endTime, description } =
-        EditEvent;
 
-      console.log(EditEvent);
+      const {
+        title,
+        image,
+        categoryIds,
+        startTime,
+        endTime,
+        location,
+        description,
+      } = editEventData;
+      console.log(editEventData);
 
       // create an object with the data
       const eventData = {
         title,
         image,
         categoryIds: categoryIds.split(",").map((s) => parseInt(s)),
-
+        description,
+        location,
         startTime: new Date(startTime),
         endTime: new Date(endTime),
       };
 
-      // Validate the input data
       // Send the Updated event data to the API or database
       const response = await fetch(`http://localhost:3000/events/${event.id}`, {
-        method: "PUT", // change the method to PUT
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(eventData),
       });
+
+      ////////////////////////////////////////////////
+
+      // handle the response
+      const data = await response.json();
+      console.log(data);
+
+      /////////////////////////////////////////////////////////
 
       // Show a success message
       toast({
@@ -81,19 +95,22 @@ export const EditeventModal = () => {
         title: "Event edited.",
         description: "Your event has been successfully edited.",
         status: "success",
-        duration: 3000,
+        duration: 3000000,
+        //position: "bottom-left",
         position: "bottom-left",
         isClosable: true,
       });
       // Close the modal
       onClose();
+      // refresh the page
+      // window.location.reload();
     } catch (error) {
       // Show an error message
       toast({
         title: "An error occurred.",
         description: "Something went wrong while editing your event.",
         status: "error",
-        duration: 3000,
+        duration: 3000000,
         position: "bottom-left",
         isClosable: true,
       });
@@ -102,7 +119,13 @@ export const EditeventModal = () => {
 
   return (
     <>
-      <Button colorScheme="teal" onClick={onOpen}>
+      <Button
+        colorScheme="teal"
+        onClick={onOpen}
+        position="fixed"
+        bottom="1"
+        right="1"
+      >
         Edit an event
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -116,9 +139,9 @@ export const EditeventModal = () => {
                 <Text>CategoryIds</Text>
                 <Input
                   type="text"
-                  value={editEvent.categoryIds}
+                  value={editEventData.categoryIds}
                   onChange={(e) =>
-                    setEditEvent((prev) => ({
+                    setEditEventData((prev) => ({
                       ...prev,
                       categoryIds: e.target.value,
                     }))
@@ -130,9 +153,9 @@ export const EditeventModal = () => {
                 <Text>Title</Text>
                 <Input
                   type="text"
-                  value={editEvent.title}
+                  value={editEventData.title}
                   onChange={(e) =>
-                    setEditEvent((prev) => ({
+                    setEditEventData((prev) => ({
                       ...prev,
                       title: e.target.value,
                     }))
@@ -144,11 +167,24 @@ export const EditeventModal = () => {
                 <Text>Description</Text>
                 <Input
                   type="text"
-                  value={editEvent.description}
+                  value={editEventData.description}
                   onChange={(e) =>
-                    setEditEvent((prev) => ({
+                    setEditEventData((prev) => ({
                       ...prev,
                       description: e.target.value,
+                    }))
+                  }
+                />
+              </FormControl>
+              <FormControl id="location" isRequired>
+                <Text>Location</Text>
+                <Input
+                  type="text"
+                  value={editEventData.location}
+                  onChange={(e) =>
+                    setEditEventData((prev) => ({
+                      ...prev,
+                      location: e.target.value,
                     }))
                   }
                 />
@@ -158,9 +194,9 @@ export const EditeventModal = () => {
                 <Text>Image URL</Text>
                 <Input
                   type="text"
-                  value={editEvent.image}
+                  value={editEventData.image}
                   onChange={(e) =>
-                    setEditEvent((prev) => ({
+                    setEditEventData((prev) => ({
                       ...prev,
                       image: e.target.value,
                     }))
@@ -172,9 +208,9 @@ export const EditeventModal = () => {
                 <Text>Start time</Text>
                 <Input
                   type="datetime-local"
-                  value={editEvent.startTime}
+                  value={editEventData.startTime}
                   onChange={(e) =>
-                    setEditEvent((prev) => ({
+                    setEditEventData((prev) => ({
                       ...prev,
                       startTime: e.target.value,
                     }))
@@ -185,9 +221,9 @@ export const EditeventModal = () => {
                 <Text>End time</Text>
                 <Input
                   type="datetime-local"
-                  value={editEvent.endTime}
+                  value={editEventData.endTime}
                   onChange={(e) =>
-                    setEditEvent((prev) => ({
+                    setEditEventData((prev) => ({
                       ...prev,
                       endTime: e.target.value,
                     }))

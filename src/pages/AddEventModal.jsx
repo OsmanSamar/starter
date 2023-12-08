@@ -9,15 +9,18 @@ import {
   ModalBody,
   ModalFooter,
   FormControl,
-  Text,
+  FormErrorMessage,
   Input,
   useToast,
   useDisclosure,
+  FormLabel,
 } from "@chakra-ui/react";
 
 export const AddEventModal = () => {
   // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const toast = useToast(); // call the useToast hook here
 
   // add the state and logic for the pop-up modal here
   const [newEvent, setNewEvent] = useState({
@@ -26,30 +29,83 @@ export const AddEventModal = () => {
     image: "",
     startTime: "",
     endTime: "",
-    categoryIds: [],
+    location: "",
+    categoryIds: "",
   });
 
-  const toast = useToast(); // call the useToast hook here
+  //To validate the form field
+  const [isTitleValid, setIsTitleValid] = useState(true);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
+  const [isCategoryIdsValid, setIsCategoryIdsValid] = useState(true);
+  const [isLocationValid, setIsLocationValid] = useState(true);
+  const [isImageValid, setIsImageValid] = useState(true);
+  const [isStarttimeValid, setIsStarttimeValid] = useState(true);
+  const [isEndtimeValid, setIsEndtimeValid] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default browser behavior
     try {
       // get the data from the form
-      const { title, image, categoryIds, startTime, endTime } = newEvent;
+
+      const {
+        title,
+        image,
+        categoryIds,
+        startTime,
+        endTime,
+        location,
+        description,
+      } = newEvent;
 
       console.log(newEvent);
+
+      // validate the form fields
+      if (!title) {
+        setIsTitleValid(false);
+        return;
+      }
+
+      if (!description) {
+        setIsDescriptionValid(false);
+        return;
+      }
+
+      if (!categoryIds) {
+        setIsCategoryIdsValid(false);
+        return;
+      }
+
+      if (!image) {
+        setIsImageValid(false);
+        return;
+      }
+
+      if (!location) {
+        setIsLocationValid(false);
+        return;
+      }
+
+      if (!startTime) {
+        setIsStarttimeValid(false);
+        return;
+      }
+
+      if (!endTime) {
+        setIsEndtimeValid(false);
+        return;
+      }
 
       // create an object with the data
       const eventData = {
         title,
         image,
         categoryIds: categoryIds.split(",").map((s) => parseInt(s)),
-
+        description,
+        location,
         startTime: new Date(startTime),
         endTime: new Date(endTime),
       };
 
-      // Validate the input data
       // Send the new event data to the API or database
       const response = await fetch("http://localhost:3000/events", {
         method: "POST",
@@ -96,87 +152,147 @@ export const AddEventModal = () => {
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit}>
-              <FormControl id="categoryIds" isRequired>
-                <Text>CategoryIds</Text>
+              <FormControl
+                id="categoryIds"
+                isRequired
+                isInvalid={!isCategoryIdsValid}
+              >
+                <FormLabel>CategoryIds</FormLabel>
                 <Input
                   type="text"
                   value={newEvent.categoryIds}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
                       categoryIds: e.target.value,
-                    }))
-                  }
+                    }));
+                    setIsCategoryIdsValid(true);
+                  }}
                 />
+                {!isCategoryIdsValid && (
+                  <FormErrorMessage>CategoryIds is required.</FormErrorMessage>
+                )}
               </FormControl>
 
-              <FormControl id="title" isRequired>
-                <Text>Title</Text>
+              <FormControl id="title" isRequired isInvalid={!isTitleValid}>
+                <FormLabel>Title</FormLabel>
                 <Input
                   type="text"
                   value={newEvent.title}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
                       title: e.target.value,
-                    }))
-                  }
+                    }));
+                    setIsTitleValid(true);
+                  }}
                 />
+                {!isTitleValid && (
+                  <FormErrorMessage>Title is required.</FormErrorMessage>
+                )}
               </FormControl>
 
-              <FormControl id="description" isRequired>
-                <Text>Description</Text>
+              <FormControl
+                id="description"
+                isRequired
+                isInvalid={!isDescriptionValid}
+              >
+                <FormLabel>Description</FormLabel>
                 <Input
                   type="text"
                   value={newEvent.description}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
                       description: e.target.value,
-                    }))
-                  }
+                    }));
+                    setIsDescriptionValid(true);
+                  }}
                 />
+                {!isDescriptionValid && (
+                  <FormErrorMessage>Description is required.</FormErrorMessage>
+                )}
               </FormControl>
 
-              <FormControl id="image" isRequired>
-                <Text>Image URL</Text>
+              <FormControl
+                id="location"
+                isRequired
+                isInvalid={!isLocationValid}
+              >
+                <FormLabel>Location</FormLabel>
+                <Input
+                  type="text"
+                  value={newEvent.location}
+                  onChange={(e) => {
+                    setNewEvent((prev) => ({
+                      ...prev,
+                      location: e.target.value,
+                    }));
+                    setIsLocationValid(true);
+                  }}
+                />
+                {!isLocationValid && (
+                  <FormErrorMessage>Location is required.</FormErrorMessage>
+                )}
+              </FormControl>
+
+              <FormControl id="image" isRequired isInvalid={!isImageValid}>
+                <FormLabel>Image URL</FormLabel>
                 <Input
                   type="text"
                   value={newEvent.image}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
                       image: e.target.value,
-                    }))
-                  }
+                    }));
+                    setIsImageValid(true);
+                  }}
                 />
+                {!isImageValid && (
+                  <FormErrorMessage>Image URL is required.</FormErrorMessage>
+                )}
               </FormControl>
 
-              <FormControl id="startTime" isRequired>
-                <Text>Start time</Text>
+              <FormControl
+                id="starttime"
+                isRequired
+                isInvalid={!isStarttimeValid}
+              >
+                <FormLabel>Start time</FormLabel>
+
                 <Input
                   type="datetime-local"
                   value={newEvent.startTime}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
                       startTime: e.target.value,
-                    }))
-                  }
+                    }));
+                    setIsStarttimeValid(true);
+                  }}
                 />
+                {!isStarttimeValid && (
+                  <FormErrorMessage>Start time is required.</FormErrorMessage>
+                )}
               </FormControl>
-              <FormControl id="endTime" isRequired>
-                <Text>End time</Text>
+
+              <FormControl id="endTime" isRequired isInvalid={!isEndtimeValid}>
+                <FormLabel>End time</FormLabel>
                 <Input
                   type="datetime-local"
                   value={newEvent.endTime}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
                       endTime: e.target.value,
-                    }))
-                  }
+                    }));
+                    setIsEndtimeValid(true);
+                  }}
                 />
+                {!isEndtimeValid && (
+                  <FormErrorMessage>End time is required.</FormErrorMessage>
+                )}
               </FormControl>
             </form>
           </ModalBody>

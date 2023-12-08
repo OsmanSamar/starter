@@ -45,19 +45,23 @@ export const EventPage = () => {
 
   return (
     <>
-      <Heading textAlign="center"> Event Details </Heading>
+      <Heading textAlign="center" mb="10">
+        {" "}
+        Event Details{" "}
+      </Heading>
       <Center>
         {eventData ? ( // check if the event data is available
           <Card
             borderRadius="xl"
-            w="3xl"
-            h="auto"
+            W="2xl"
+            h="xl"
             mb="3"
-            mt="7"
+            mt="10"
             bgColor="white"
             flexDirection="column"
             cursor="pointer"
             _hover={{ transform: "scale(1.01)" }}
+            overflow="visible"
           >
             <CardHeader
               onClick={() => {
@@ -68,20 +72,25 @@ export const EventPage = () => {
             </CardHeader>
 
             <Image
-              w="100%"
-              h="25rem"
+              width="150px "
+              height="150px"
+              position="absolute"
+              top="-60px"
+              left="35%"
+              right="50%"
+              marginLeft="-30px"
               objectFit="cover"
+              overflow="hidden"
+              borderRadius="2rem 2rem 2rem 2rem "
               src={eventData.image}
               alt={eventData.title}
-              borderRadius="1rem 1rem 1rem 1rem "
             />
             <CardBody fontFamily="bold">
               <Stack mt="2" pt="5px" textAlign="center">
-                <Text fontSize="sm">Title: {eventData.title}</Text>
                 <Text>
                   <Link to={`/event/${eventData.eventId}`}></Link>
                 </Text>
-
+                <Text fontSize="sm">Title: {eventData.title}</Text>
                 <Text fontSize="sm">CategoryIds: {eventData.categoryIds} </Text>
 
                 <Text fontSize="sm" color="gray.500">
@@ -101,7 +110,8 @@ export const EventPage = () => {
                     ? format(new Date(eventData.endTime), "MMMM d, yyyy h:mm a")
                     : "Invalid date"}
                 </Text>
-                <text>Description: {eventData.description}</text>
+                <Text>Description: {eventData.description}</Text>
+                <Text>Location :{eventData.location}</Text>
 
                 {/* Find the user who created the event by matching the userId property */}
                 {users.map((user) => {
@@ -143,7 +153,7 @@ export const EventPage = () => {
                   </div>
                 )}
               </Stack>
-              <EditeventModal event={event} />
+              <EditeventModal />
             </CardBody>
           </Card>
         ) : (

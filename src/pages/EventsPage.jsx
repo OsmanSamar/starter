@@ -21,17 +21,24 @@ import { AddEventModal } from "./AddEventModal";
 //To display the fetched events on the users’ screen
 export const loader = async () => {
   const events = await fetch("http://localhost:3000/events");
+  const categories = await fetch("http://localhost:3000/categories");
 
   return {
     events: await events.json(),
+    categories: await categories.json(),
   };
 };
 
 export const EventsPage = () => {
   const { events } = useLoaderData();
+  // const { categories } = useLoaderData();
 
   //Create a state variable to store the search input,
+
   const [searchQuery, setSearchQuery] = useState("");
+
+  //const [categorie, setCategorie] = useState([]);
+  //const [selectedCategory, setSelectedCategory] = useState("");
 
   //Create a function to handle the search input,
   const handleSearchInput = (e) => {
@@ -39,7 +46,6 @@ export const EventsPage = () => {
   };
 
   //Create a function to filter the events based on the search input
-
   const filterEvents = (events) => {
     // store the result of the filterEvents function in a variable
     let filteredEvents = events.filter((event) => {
@@ -119,7 +125,7 @@ export const EventsPage = () => {
                       />
 
                       <Text fontSize="sm">
-                        CategoryIds: {event.categoryIds}{" "}
+                        CategoryIds: {event.categoryIds}
                       </Text>
                       <Heading>
                         <Text fontSize="sm">Title: {event.title}</Text>

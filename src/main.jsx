@@ -24,12 +24,6 @@ const router = createBrowserRouter([
         loader: eventLoader,
         // action: addComment,
       },
-      // {
-      //  path: "/newevent/",
-      //  element: <NewEvents />,
-      // loader: eventLoader,
-      // action: addComment,
-      // },
     ],
   },
 ]);
