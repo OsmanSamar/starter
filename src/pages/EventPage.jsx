@@ -15,6 +15,8 @@ import { format, isValid } from "date-fns";
 import { FaArrowLeft } from "react-icons/fa";
 import { EditeventModal } from "./EditEventModal";
 
+import { DeleteEvent } from "./DeleteEvent";
+
 //To fetch the data for the EventPage component before rendering it.
 export const loader = async ({ params }) => {
   const users = await fetch("http://localhost:3000/users");
@@ -46,7 +48,17 @@ export const EventPage = () => {
 
   return (
     <>
-      <Heading textAlign="center" mb="12" p="5">
+      <Heading
+        textAlign="center"
+        mb="12"
+        p="5"
+        //color="white"
+        bgGradient="linear(to-r, #FF7F50, transparent)"
+        bgClip="text"
+        fontSize="6xl"
+        fontWeight="extrabold"
+        textShadow="2px 2px 4px #000000"
+      >
         {" "}
         Event Details
         <br />
@@ -168,6 +180,7 @@ export const EventPage = () => {
                 )}
               </Stack>
               <EditeventModal />
+              <DeleteEvent />
             </CardBody>
           </Card>
         ) : (

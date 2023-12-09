@@ -142,7 +142,15 @@ export const AddEventModal = () => {
 
   return (
     <>
-      <Button colorScheme="teal" onClick={onOpen}>
+      <Button
+        colorScheme="teal"
+        bg="#008080"
+        boxShadow="0 5px 15px rgba(0,0,0,0.5)"
+        bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
+        position="absolute"
+        top="0.5"
+        onClick={onOpen}
+      >
         Add event
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>

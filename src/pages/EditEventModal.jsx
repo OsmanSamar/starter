@@ -116,12 +116,15 @@ export const EditeventModal = () => {
     <>
       <Button
         colorScheme="teal"
-        onClick={onOpen}
-        position="fixed"
+        bg="#008080"
+        boxShadow="0 5px 15px rgba(0,0,0,0.5)"
+        bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
+        position="absolute"
         bottom="1"
-        right="1"
+        right="2"
+        onClick={onOpen}
       >
-        Edit an event
+        Edit an Event
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

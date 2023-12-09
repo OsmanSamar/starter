@@ -83,7 +83,16 @@ export const EventsPage = () => {
         />
       </Center>
 
-      <Heading textAlign="center" mt="2" mb="2">
+      <Heading
+        textAlign="center"
+        mt="2"
+        mb="2"
+        bgGradient="linear(to-r, #FF7F50, transparent)"
+        bgClip="text"
+        fontSize="6xl"
+        fontWeight="extrabold"
+        textShadow="2px 2px 4px #000000"
+      >
         {" "}
         List of events
       </Heading>
