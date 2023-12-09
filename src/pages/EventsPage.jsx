@@ -5,18 +5,15 @@ import {
   Text,
   Card,
   CardBody,
-  HStack,
   Center,
   Input,
-  Flex,
+  Box,
+  Grid,
 } from "@chakra-ui/react";
 //import { SearchIcon } from "@chakra-ui/icon";
 import { useLoaderData, Link } from "react-router-dom";
 import { format, isValid } from "date-fns";
 import { AddEventModal } from "./AddEventModal";
-
-//import SearchIcon from "../assets/search.svg";
-//import { CiSearch } from "react-icons/ci";
 
 //To display the fetched events on the users’ screen
 export const loader = async () => {
@@ -34,7 +31,6 @@ export const EventsPage = () => {
   // const { categories } = useLoaderData();
 
   //Create a state variable to store the search input,
-
   const [searchQuery, setSearchQuery] = useState("");
 
   //const [categorie, setCategorie] = useState([]);
@@ -73,9 +69,10 @@ export const EventsPage = () => {
 
   return (
     <>
+      <AddEventModal />
       <Center>
         <Input
-          placeholder="Search..."
+          placeholder=" 🔍 Search... "
           width="40vw"
           minW={200}
           padding="2"
@@ -84,82 +81,102 @@ export const EventsPage = () => {
           value={searchQuery}
           onChange={handleSearchInput}
         />
-
-        {/*<Icon
-          as={SearchIcon}
-          boxSize={6} // change the icon size
-          color="blue.500" // change the icon color
-          onClick={() => alert("Clicked")} // add an event handler
-  />*/}
       </Center>
 
-      <AddEventModal />
+      <Heading textAlign="center" mt="2" mb="2">
+        {" "}
+        List of events
+      </Heading>
 
-      <Heading textAlign="center"> List of events</Heading>
-
-      {/* check the length of the filteredEvents array
+      {/* To check the length of the filteredEvents array
           if the length is zero, display a message to the user
            otherwise, use the map method to render the events*/}
-      <Flex>
-        <Card
-          w="3xl"
-          h="auto"
-          cursor="pointer"
-          _hover={{ transform: "scale(1.01)" }}
-        >
-          <CardBody>
-            <HStack mt="2" pt="5px" textAlign="center">
-              {filterEvents(events).length === 0 ? (
-                <p>Sorry, there is no event that matches your search query.</p>
-              ) : (
-                filterEvents(events).map((event) => (
-                  <div key={event.id} className="event">
-                    <Link to={`event/${event.id}`}>
-                      <Image
-                        w="100%"
-                        h="100px"
-                        objectFit="cover"
-                        src={event.image}
-                        alt={event.title}
-                        borderRadius="1rem 1rem 1rem 1rem "
-                      />
 
-                      <Text fontSize="sm">
-                        CategoryIds: {event.categoryIds}
+      <Grid
+        templateColumns={{
+          sm: "repeat(1, 1fr)",
+          md: "repeat(2, 1fr)",
+          lg: "repeat(4, 1fr)",
+        }}
+        gap={2}
+        p="3"
+        justifyContent="center"
+      >
+        {filterEvents(events).length === 0 ? (
+          <Text fontSize={"xl"} textAlign="center">
+            Sorry, 🔍 there is no event that matches your search query.
+          </Text>
+        ) : (
+          filterEvents(events).map((event) => (
+            <Box
+              key={event.id}
+              _hover={{
+                transform: "scale(1.05)",
+                transition: "transform 0.2s ease-in-out",
+              }}
+              cursor="pointer"
+            >
+              <Link to={`event/${event.id}`}>
+                <Card
+                  w="250px"
+                  h="450px"
+                  alignContent="center"
+                  m="4"
+                  p="3"
+                  bg="#008080"
+                  boxShadow="0 5px 15px rgba(0,0,0,0.5)"
+                  bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
+                >
+                  <Image
+                    w="320px"
+                    h="180px"
+                    objectFit="cover"
+                    p="2"
+                    src={event.image}
+                    alt={event.title}
+                    borderRadius="4rem 4rem 4rem 4rem "
+                  />
+                  <CardBody textAlign="center">
+                    <Heading fontSize="l" mb="1" color="#ffffff">
+                      <Text>
+                        Title: <br /> {event.title}
                       </Text>
-                      <Heading>
-                        <Text fontSize="sm">Title: {event.title}</Text>
-                      </Heading>
-                      <Text fontSize="sm" color="gray.500">
-                        StartTime:{" "}
-                        {/* Check the validity of the date value before formatting it */}
-                        {isValid(new Date(event.startTime))
-                          ? format(
-                              new Date(event.startTime),
-                              "MMMM d, yyyy h:mm a"
-                            )
-                          : "Invalid date"}
-                      </Text>
-                      <Text fontSize="sm" color="gray.500">
-                        {" "}
-                        EndTime:{" "}
-                        {isValid(new Date(event.endTime))
-                          ? format(
-                              new Date(event.endTime),
-                              "MMMM d, yyyy h:mm a"
-                            )
-                          : "Invalid date"}
-                      </Text>
+                    </Heading>
 
-                      <Text fontSize="sm">Description:{event.description}</Text>
-                    </Link>
-                  </div>
-                ))
-              )}
-            </HStack>
-          </CardBody>
-        </Card>
-      </Flex>
+                    <Text fontSize="sm" mt="1" color="#0A0A0A">
+                      CategoryIds: {event.categoryIds}
+                    </Text>
+
+                    <Text fontSize="sm" color="gray.600" mt="1">
+                      StartTime: <br />{" "}
+                      {/* Check the validity of the date value before formatting it */}
+                      {isValid(new Date(event.startTime))
+                        ? format(
+                            new Date(event.startTime),
+                            "MMMM d, yyyy h:mm a"
+                          )
+                        : "Invalid date"}
+                    </Text>
+                    <Text fontSize="sm" color="gray.600" mt="1">
+                      {" "}
+                      EndTime: <br />{" "}
+                      {isValid(new Date(event.endTime))
+                        ? format(new Date(event.endTime), "MMMM d, yyyy h:mm a")
+                        : "Invalid date"}
+                    </Text>
+
+                    <Text fontSize="sm" mt="1" color="#F3E8EA">
+                      Description:
+                      <br />
+                      {event.description}
+                    </Text>
+                  </CardBody>
+                </Card>
+              </Link>
+            </Box>
+          ))
+        )}
+      </Grid>
     </>
   );
 };

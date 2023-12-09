@@ -20,9 +20,9 @@ export const AddEventModal = () => {
   // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const toast = useToast(); // call the useToast hook here
+  const toast = useToast(); // Call the useToast hook here
 
-  // add the state and logic for the pop-up modal here
+  // Add the state and logic for the pop-up modal here
   const [newEvent, setNewEvent] = useState({
     title: "",
     description: "",
@@ -45,7 +45,7 @@ export const AddEventModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default browser behavior
     try {
-      // get the data from the form
+      // Get the data from the form
 
       const {
         title,
@@ -95,7 +95,7 @@ export const AddEventModal = () => {
         return;
       }
 
-      // create an object with the data
+      // Create an object with the data
       const eventData = {
         title,
         image,

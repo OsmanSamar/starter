@@ -15,7 +15,7 @@ import { format, isValid } from "date-fns";
 import { FaArrowLeft } from "react-icons/fa";
 import { EditeventModal } from "./EditEventModal";
 
-//To display the fetched events on the users’ screen
+//To fetch the data for the EventPage component before rendering it.
 export const loader = async ({ params }) => {
   const users = await fetch("http://localhost:3000/users");
   const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
@@ -27,15 +27,16 @@ export const loader = async ({ params }) => {
 };
 
 export const EventPage = () => {
+  // To access the data fetched by loader.
   const { event, users } = useLoaderData();
-  const { eventId } = useParams(); // get the event ID from the URL
+  const { eventId } = useParams(); // To get the eventId from the URL
 
-  const navigate = useNavigate(); // get the navigate function
+  const navigate = useNavigate(); // To get the navigate function
 
-  // use a state variable to store the event data
+  // use a state variable to store the event data. Updated with the fetched data.
   const [eventData, setEventData] = useState(null);
 
-  // use an effect hook to fetch the event data when the component mounts
+  // To fetch the data for the eventData state variable after the component has been rendered.
   useEffect(() => {
     fetch(`http://localhost:3000/events/${eventId}`) // use the event ID in the fetch request
       .then((response) => response.json())
@@ -45,19 +46,24 @@ export const EventPage = () => {
 
   return (
     <>
-      <Heading textAlign="center" mb="10">
+      <Heading textAlign="center" mb="12" p="5">
         {" "}
-        Event Details{" "}
+        Event Details
+        <br />
       </Heading>
       <Center>
         {eventData ? ( // check if the event data is available
           <Card
             borderRadius="xl"
             W="2xl"
-            h="xl"
+            h="l"
             mb="3"
             mt="10"
-            bgColor="white"
+            m="4"
+            p="8"
+            bg="#008080"
+            boxShadow="0 5px 15px rgba(0,0,0,0.5)"
+            bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
             flexDirection="column"
             cursor="pointer"
             _hover={{ transform: "scale(1.01)" }}
@@ -90,10 +96,14 @@ export const EventPage = () => {
                 <Text>
                   <Link to={`/event/${eventData.eventId}`}></Link>
                 </Text>
-                <Text fontSize="sm">Title: {eventData.title}</Text>
-                <Text fontSize="sm">CategoryIds: {eventData.categoryIds} </Text>
+                <Heading fontSize="l" mb="1" color="#ffffff">
+                  Title: <br /> {eventData.title}
+                </Heading>
+                <Text fontSize="sm" mt="1" color="#0A0A0A">
+                  CategoryIds: {eventData.categoryIds}{" "}
+                </Text>
 
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="gray.600" mt="1">
                   StartTime:{" "}
                   {/* Check the validity of the date value before formatting it */}
                   {isValid(new Date(eventData.startTime))
@@ -103,15 +113,19 @@ export const EventPage = () => {
                       )
                     : "Invalid date"}
                 </Text>
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="gray.600" mt="1">
                   {" "}
                   EndTime:{" "}
                   {isValid(new Date(eventData.endTime))
                     ? format(new Date(eventData.endTime), "MMMM d, yyyy h:mm a")
                     : "Invalid date"}
                 </Text>
-                <Text>Description: {eventData.description}</Text>
-                <Text>Location :{eventData.location}</Text>
+                <Text fontSize="sm" mt="1" color="#F3E8EA">
+                  Description: {eventData.description}
+                </Text>
+                <Text fontSize="sm" mt="1" color="#F3E8EA">
+                  Location :{eventData.location}
+                </Text>
 
                 {/* Find the user who created the event by matching the userId property */}
                 {users.map((user) => {
@@ -119,7 +133,7 @@ export const EventPage = () => {
                     return (
                       <div key={user.id}>
                         {/* Display the user's name and image */}
-                        <Text fontSize="sm" color="gray.500">
+                        <Text fontSize="sm" mt="1" color="#F3E8EA">
                           Created by: {user.name}
                         </Text>
                         <Image
@@ -139,7 +153,7 @@ export const EventPage = () => {
                 {!eventData.createdBy && (
                   <div>
                     {/* Display a default message and image */}
-                    <Text fontSize="sm" color="gray.500">
+                    <Text fontSize="sm" color="gray.400">
                       Created by: Unknown
                     </Text>
                     <Image
@@ -157,7 +171,7 @@ export const EventPage = () => {
             </CardBody>
           </Card>
         ) : (
-          <p>Loading...</p> // show a loading message while the event data is being fetched
+          <Text fontSize={"sm"}>Loading...</Text> // show a loading message while the event data is being fetched
         )}
       </Center>
     </>

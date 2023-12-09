@@ -41,14 +41,10 @@ export const EditeventModal = () => {
 
   const toast = useToast(); // call the useToast hook here
 
-  //////////////////////////////////////////////////////////////////////////
-
-  // const [updatedEevent, setupdatedEevent] = useState(null);
-
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault(); // Prevent the default browser behavior
     try {
-      // get the data from the form
+      // To get the data from the form
 
       const {
         title,
@@ -61,7 +57,7 @@ export const EditeventModal = () => {
       } = editEventData;
       console.log(editEventData);
 
-      // create an object with the data
+      // To create an object with the data.
       const eventData = {
         title,
         image,
@@ -72,7 +68,7 @@ export const EditeventModal = () => {
         endTime: new Date(endTime),
       };
 
-      // Send the Updated event data to the API or database
+      // send a PUT request to the backend API to update the data.
       const response = await fetch(`http://localhost:3000/events/${event.id}`, {
         method: "PUT",
         headers: {
@@ -81,31 +77,30 @@ export const EditeventModal = () => {
         body: JSON.stringify(eventData),
       });
 
-      ////////////////////////////////////////////////
+      if (!response.ok) {
+        throw new Error("Failed to update the data");
+      }
 
-      // handle the response
+      // To handle the response.
       const data = await response.json();
       console.log(data);
 
-      /////////////////////////////////////////////////////////
-
-      // Show a success message
+      // Show a success message.
       toast({
-        // call the toast function here
+        // call the toast function here.
         title: "Event edited.",
         description: "Your event has been successfully edited.",
         status: "success",
-        duration: 3000000,
-        //position: "bottom-left",
+        duration: 10000000,
         position: "bottom-left",
         isClosable: true,
       });
-      // Close the modal
+      // Close the modal.
       onClose();
-      // refresh the page
-      // window.location.reload();
+      // reload the page.
+      window.location.reload();
     } catch (error) {
-      // Show an error message
+      // Show an error message.
       toast({
         title: "An error occurred.",
         description: "Something went wrong while editing your event.",
@@ -134,7 +129,7 @@ export const EditeventModal = () => {
           <ModalHeader> Edit Event</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleUpdate}>
               <FormControl id="categoryIds" isRequired>
                 <Text>CategoryIds</Text>
                 <Input
@@ -233,7 +228,7 @@ export const EditeventModal = () => {
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="teal" type="submit" onClick={handleSubmit}>
+            <Button colorScheme="teal" type="submit" onClick={handleUpdate}>
               Save
             </Button>
           </ModalFooter>
