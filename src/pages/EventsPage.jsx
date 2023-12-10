@@ -14,6 +14,7 @@ import {
 import { useLoaderData, Link } from "react-router-dom";
 import { format, isValid } from "date-fns";
 import { AddEventModal } from "./AddEventModal";
+//import { CiSearch } from "react-icons/ci";
 
 //To display the fetched events on the users’ screen
 export const loader = async () => {
@@ -70,17 +71,26 @@ export const EventsPage = () => {
   return (
     <>
       <AddEventModal />
-      <Center>
+      <Center
+        margin="0.5rem 5%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Input
           placeholder=" 🔍 Search... "
           width="40vw"
+          h="8vh"
+          borderRadius="10vh"
+          border="none"
           minW={200}
           padding="2"
           margin="0.5rem 5%"
-          bg="white"
+          bg="#FFFFFF"
           value={searchQuery}
           onChange={handleSearchInput}
         />
+        {/*<CiSearch points="relative" right="100vh" />*/}
       </Center>
 
       <Heading
@@ -112,9 +122,11 @@ export const EventsPage = () => {
         justifyContent="center"
       >
         {filterEvents(events).length === 0 ? (
-          <Text fontSize={"xl"} textAlign="center">
-            Sorry, 🔍 there is no event that matches your search query.
-          </Text>
+          <Center w="50vw" h="60vh" textAlign="center">
+            <Text fontSize={"xl"}>
+              Sorry, 🔍 there is no event that matches your search query.
+            </Text>
+          </Center>
         ) : (
           filterEvents(events).map((event) => (
             <Box

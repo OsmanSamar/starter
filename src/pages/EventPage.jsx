@@ -52,7 +52,6 @@ export const EventPage = () => {
         textAlign="center"
         mb="12"
         p="5"
-        //color="white"
         bgGradient="linear(to-r, #FF7F50, transparent)"
         bgClip="text"
         fontSize="6xl"
@@ -80,6 +79,7 @@ export const EventPage = () => {
             cursor="pointer"
             _hover={{ transform: "scale(1.01)" }}
             overflow="visible"
+            position="relative"
           >
             <CardHeader
               onClick={() => {

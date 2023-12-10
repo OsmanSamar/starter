@@ -14,7 +14,7 @@ import {
   useToast,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 export const loader = async ({ params }) => {
   const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
@@ -25,6 +25,8 @@ export const loader = async ({ params }) => {
 };
 
 export const EditeventModal = () => {
+  const navigate = useNavigate();
+
   const { event } = useLoaderData(); // gives the event data.
 
   // this creates and initializes the state variable with the event data.
@@ -91,21 +93,24 @@ export const EditeventModal = () => {
         title: "Event edited.",
         description: "Your event has been successfully edited.",
         status: "success",
-        duration: 10000000,
+        duration: 3000,
         position: "bottom-left",
         isClosable: true,
       });
       // Close the modal.
       onClose();
       // reload the page.
-      window.location.reload();
+      //window.location.reload();
+      // navigate('/event');
+
+      //navigate(0);
     } catch (error) {
       // Show an error message.
       toast({
         title: "An error occurred.",
         description: "Something went wrong while editing your event.",
         status: "error",
-        duration: 3000000,
+        duration: 3000,
         position: "bottom-left",
         isClosable: true,
       });
@@ -121,7 +126,7 @@ export const EditeventModal = () => {
         bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
         position="absolute"
         bottom="1"
-        right="2"
+        right="2.5"
         onClick={onOpen}
       >
         Edit an Event

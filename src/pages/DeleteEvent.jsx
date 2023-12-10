@@ -42,7 +42,8 @@ export const DeleteEvent = () => {
         //bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
         position="absolute"
         bottom="1"
-        right="200"
+        //right="200"
+        right="calc(100% - 130px)"
         onClick={() => setIsOpen(true)}
       >
         Delete Event
