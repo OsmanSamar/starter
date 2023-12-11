@@ -9,12 +9,12 @@ import {
   Input,
   Box,
   Grid,
+  Button,
 } from "@chakra-ui/react";
-//import { SearchIcon } from "@chakra-ui/icon";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { useLoaderData, Link } from "react-router-dom";
 import { format, isValid } from "date-fns";
 import { AddEventModal } from "./AddEventModal";
-//import { CiSearch } from "react-icons/ci";
 
 //To display the fetched events on the users’ screen
 export const loader = async () => {
@@ -39,6 +39,10 @@ export const EventsPage = () => {
   //Create a function to handle the search input,
   const handleSearchInput = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
   };
 
   //Create a function to filter the events based on the search input
@@ -97,7 +101,46 @@ export const EventsPage = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Input
+        <div style={{ position: "relative" }}>
+          <Input
+            //variant="flushed"
+            placeholder="Search..."
+            width="40vw"
+            h="8vh"
+            paddingRight="3rem"
+            borderRadius="10vh"
+            border="none"
+            minW={200}
+            bg="#FFFFFF"
+            value={searchQuery}
+            onChange={handleSearchInput}
+          />
+          {searchQuery && (
+            <Button
+              top="30%"
+              background="none"
+              border="none"
+              cursor="pointer"
+              // position="absolute"
+              right="0.5rem"
+              onClick={handleClearSearch}
+            >
+              <FaTimes />
+            </Button>
+          )}
+          <Button
+            top="30%"
+            background="none"
+            border="none"
+            cursor="pointer"
+            // position="absolute"
+            right="0.5rem"
+          >
+            <FaSearch />
+          </Button>
+        </div>
+
+        {/*  <Input
           placeholder=" 🔍 Search... "
           width="40vw"
           h="8vh"
@@ -110,7 +153,7 @@ export const EventsPage = () => {
           value={searchQuery}
           onChange={handleSearchInput}
         />
-        {/*<CiSearch points="relative" right="100vh" />*/}
+        <CiSearch points="relative" right="100vh" />*/}
       </Center>
 
       <Heading
@@ -133,7 +176,7 @@ export const EventsPage = () => {
 
       <Grid
         templateColumns={{
-          sm: "repeat(1, 1fr)",
+          //  sm: "repeat(1, 1fr)",
           md: "repeat(2, 1fr)",
           lg: "repeat(4, 1fr)",
         }}

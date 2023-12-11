@@ -33,7 +33,7 @@ export const EditeventModal = () => {
   const [editEventData, setEditEventData] = useState(event);
   console.log(event);
 
-  // Use the useEffect hook to get the Event data
+  3; // Use the useEffect hook to get the Event data
   useEffect(() => {
     setEditEventData(event);
   }, [event]); // only run the effect when the event changes.
