@@ -21,18 +21,17 @@ import { DeleteEvent } from "./DeleteEvent";
 export const loader = async ({ params }) => {
   const users = await fetch("http://localhost:3000/users");
   const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
-
+  const categories = await fetch("http://localhost:3000/categories");
   return {
     users: await users.json(),
     event: await event.json(),
+    categories: await categories.json(),
   };
 };
 
 export const EventPage = () => {
-  // To access the data fetched by loader.
-  const { event, users } = useLoaderData();
+  const { event, users, categories } = useLoaderData(); // To access the data fetched by loader.
   const { eventId } = useParams(); // To get the eventId from the URL
-
   const navigate = useNavigate(); // To get the navigate function
 
   // use a state variable to store the event data. Updated with the fetched data.
@@ -45,6 +44,14 @@ export const EventPage = () => {
       .then((data) => setEventData(data)) // set the event data to the state variable
       .catch((error) => console.error(error)); // handle any errors that might occur
   }, [eventId]); // only run the effect when the event ID changes
+
+  // use the category IDs to find the corresponding category names
+  const categoryNames = eventData?.categoryIds
+    ?.map((categoryId) => {
+      const category = categories?.find((c) => c.id === categoryId);
+      return category?.name;
+    })
+    ?.join(", ");
 
   return (
     <>
@@ -109,18 +116,21 @@ export const EventPage = () => {
                   <Link to={`/event/${eventData.eventId}`}></Link>
                 </Text>
                 <Heading fontSize="l" mb="1" color="#ffffff">
-                  Title: <br /> {eventData.title}
+                  Title: <br /> {eventData?.title}
                 </Heading>
                 <Text fontSize="sm" mt="1" color="#0A0A0A">
-                  CategoryIds: {eventData.categoryIds}{" "}
+                  {/*  Category: {eventData.categoryIds}{" "}  */}
+                  Category: {categoryNames}
                 </Text>
 
                 <Text fontSize="sm" color="gray.600" mt="1">
                   StartTime:{" "}
-                  {/* Check the validity of the date value before formatting it */}
+                  {/* Check the validity of the date value before formatting it */}{" "}
+                  {/* The eventData variable is initially set to null, and fetching data may take some time to load
+                     and trying to access a property of a null object will result in a runtime error.To avoid this error, the ?. */}
                   {isValid(new Date(eventData.startTime))
                     ? format(
-                        new Date(eventData.startTime),
+                        new Date(eventData?.startTime),
                         "MMMM d, yyyy h:mm a"
                       )
                     : "Invalid date"}
@@ -129,19 +139,22 @@ export const EventPage = () => {
                   {" "}
                   EndTime:{" "}
                   {isValid(new Date(eventData.endTime))
-                    ? format(new Date(eventData.endTime), "MMMM d, yyyy h:mm a")
+                    ? format(
+                        new Date(eventData?.endTime),
+                        "MMMM d, yyyy h:mm a"
+                      )
                     : "Invalid date"}
                 </Text>
                 <Text fontSize="sm" mt="1" color="#F3E8EA">
                   Description: {eventData.description}
                 </Text>
                 <Text fontSize="sm" mt="1" color="#F3E8EA">
-                  Location :{eventData.location}
+                  Location :{eventData?.location}
                 </Text>
 
                 {/* Find the user who created the event by matching the userId property */}
                 {users.map((user) => {
-                  if (user.id === eventData.createdBy) {
+                  if (user.id === eventData?.createdBy) {
                     return (
                       <div key={user.id}>
                         {/* Display the user's name and image */}

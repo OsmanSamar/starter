@@ -19,8 +19,13 @@ import {
 export const AddEventModal = () => {
   // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const toast = useToast(); // Call the useToast hook here
+
+  const [isError, setIsError] = useState(false); // To create state variables for the error status
+  //To handle any errors that might occur while loading the image.
+  const handleError = () => {
+    setIsError(true);
+  };
 
   // Add the state and logic for the pop-up modal here
   const [newEvent, setNewEvent] = useState({
@@ -252,10 +257,11 @@ export const AddEventModal = () => {
                   onChange={(e) => {
                     setNewEvent((prev) => ({
                       ...prev,
-                      image: e.target.value,
+                      image: !isError ? e.target.value : " ",
                     }));
                     setIsImageValid(true);
                   }}
+                  onError={handleError}
                 />
                 {!isImageValid && (
                   <FormErrorMessage>Image URL is required.</FormErrorMessage>

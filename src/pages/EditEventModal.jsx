@@ -88,6 +88,7 @@ export const EditeventModal = () => {
       console.log(data);
 
       // Show a success message.
+
       toast({
         // call the toast function here.
         title: "Event edited.",
@@ -103,7 +104,7 @@ export const EditeventModal = () => {
       //window.location.reload();
       // navigate('/event');
 
-      //navigate(0);
+      navigate(0);
     } catch (error) {
       // Show an error message.
       toast({

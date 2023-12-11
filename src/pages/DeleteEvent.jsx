@@ -9,7 +9,21 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
+import { useLoaderData, useNavigate } from "react-router-dom";
+
+///////////////////////////////////////
+
+export const loader = async ({ params }) => {
+  const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
+
+  return {
+    event: await event.json(),
+  };
+};
+
 export const DeleteEvent = () => {
+  const { event } = useLoaderData(); // gives the event data.
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => setIsOpen(false);
@@ -19,12 +33,16 @@ export const DeleteEvent = () => {
       // send the delete request to the server
       const response = await fetch(`http://localhost:3000/events/${event.id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       // handle the response
       if (response.ok) {
         // redirect the user back to the events page
-        history.push("/events");
+        // history.push("/events");
+        navigate(-1);
       } else {
         // show an error message
         console.error("Failed to delete event.");

@@ -19,6 +19,7 @@ import { AddEventModal } from "./AddEventModal";
 //To display the fetched events on the users’ screen
 export const loader = async () => {
   const events = await fetch("http://localhost:3000/events");
+
   const categories = await fetch("http://localhost:3000/categories");
 
   return {
@@ -29,13 +30,11 @@ export const loader = async () => {
 
 export const EventsPage = () => {
   const { events } = useLoaderData();
-  // const { categories } = useLoaderData();
+
+  const { categories } = useLoaderData();
 
   //Create a state variable to store the search input,
   const [searchQuery, setSearchQuery] = useState("");
-
-  //const [categorie, setCategorie] = useState([]);
-  //const [selectedCategory, setSelectedCategory] = useState("");
 
   //Create a function to handle the search input,
   const handleSearchInput = (e) => {
@@ -43,7 +42,7 @@ export const EventsPage = () => {
   };
 
   //Create a function to filter the events based on the search input
-  const filterEvents = (events) => {
+  const filterEvents = (events, categories) => {
     // store the result of the filterEvents function in a variable
     let filteredEvents = events.filter((event) => {
       return (
@@ -57,14 +56,35 @@ export const EventsPage = () => {
             .includes(searchQuery.toLowerCase())) ||
         // check if the categoryIds property exists and is an array before calling toString and toLowerCase
         (Array.isArray(event.categoryIds) &&
-          event.categoryIds
-            .toString()
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()))
+          // Some() method to check if any of the categories match the search criteria.
+          event.categoryIds.some((categoryId) => {
+            //The some() method takes a callback function as an argument, which is executed on each element of the array until a match is found.
+            const category = categories.find((c) => c.id === categoryId);
+
+            return (
+              category &&
+              typeof category.name === "string" &&
+              category.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }))
       );
     });
 
-    // return the filteredEvents array
+    // map the filtered events to include the category names
+    filteredEvents = filteredEvents.map((event) => {
+      const categoryNames = event.categoryIds
+        .map((categoryIds) => {
+          const category = categories.find((c) => c.id === categoryIds);
+          return category ? category.name : null;
+        })
+        .filter((name) => name !== null);
+
+      return {
+        ...event,
+        categoryNames,
+      };
+    });
+
     return filteredEvents;
   };
 
@@ -121,14 +141,14 @@ export const EventsPage = () => {
         p="3"
         justifyContent="center"
       >
-        {filterEvents(events).length === 0 ? (
+        {filterEvents(events, categories).length === 0 ? (
           <Center w="50vw" h="60vh" textAlign="center">
             <Text fontSize={"xl"}>
               Sorry, 🔍 there is no event that matches your search query.
             </Text>
           </Center>
         ) : (
-          filterEvents(events).map((event) => (
+          filterEvents(events, categories).map((event) => (
             <Box
               key={event.id}
               _hover={{
@@ -163,9 +183,9 @@ export const EventsPage = () => {
                         Title: <br /> {event.title}
                       </Text>
                     </Heading>
-
+                    {/* 3 */}
                     <Text fontSize="sm" mt="1" color="#0A0A0A">
-                      CategoryIds: {event.categoryIds}
+                      Category: {event.categoryNames.join(", ")}
                     </Text>
 
                     <Text fontSize="sm" color="gray.600" mt="1">

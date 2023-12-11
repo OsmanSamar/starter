@@ -93,14 +93,25 @@
       "title": "Summer",
       "image": "https://image.freepik.com/free-photo/group-people-cooking-together_53876-64828.jpg",
       "categoryIds": [
-        1,
-        2
+        3
       ],
       "description": "Just for test",
       "location": "Roterdam",
       "startTime": "2023-12-21T16:52:00.000Z",
       "endTime": "2023-12-30T18:31:00.000Z",
       "id": 7
+    },
+    {
+      "title": "Italian Trulli",
+      "image": "pic_trulli.jpg",
+      "categoryIds": [
+        1
+      ],
+      "description": "Holiday houses",
+      "location": "Italy",
+      "startTime": "2023-12-12T14:40:00.000Z",
+      "endTime": "2023-12-13T14:40:00.000Z",
+      "id": 8
     }
   ],
   "categories": [
