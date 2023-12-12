@@ -6,12 +6,10 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-
 import { useLoaderData, useNavigate } from "react-router-dom";
-
-///////////////////////////////////////
 
 export const loader = async ({ params }) => {
   const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
@@ -21,10 +19,15 @@ export const loader = async ({ params }) => {
   };
 };
 
+////////////////////////
 export const DeleteEvent = () => {
+  const navigate = useNavigate(); //Relaoed the page.
+
   const { event } = useLoaderData(); // gives the event data.
-  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const toast = useToast(); // call the useToast hook here.
 
   const onClose = () => setIsOpen(false);
 
@@ -40,9 +43,23 @@ export const DeleteEvent = () => {
 
       // handle the response
       if (response.ok) {
-        // redirect the user back to the events page
-        // history.push("/events");
-        navigate(-1);
+        // Show a success message.
+        toast({
+          // call the toast function here.
+          title: "Event deleted.",
+          description: "Your event has been successfully deleted.",
+          status: "success",
+          duration: 3000,
+          position: "bottom-left",
+          isClosable: true,
+        });
+
+        // Close the modal.
+        onClose();
+        //To redirect the user back to the events page after a delay of 2 seconds.
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000);
       } else {
         // show an error message
         console.error("Failed to delete event.");

@@ -16,17 +16,27 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 
+import { useNavigate } from "react-router-dom";
+
+//import validator from "validator";
+
 export const AddEventModal = () => {
+  const navigate = useNavigate(); //Relaoed the page.
+
   // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const toast = useToast(); // Call the useToast hook here
 
-  const [isError, setIsError] = useState(false); // To create state variables for the error status
+  //////////////////////////////////////////////////////////////////
+  const [isError, setIsError] = useState(false);
+
   //To handle any errors that might occur while loading the image.
   const handleError = () => {
-    setIsError(true);
+    isError(true);
   };
 
+  /////////////////////////////////////////////////////////////////////////////////////
   // Add the state and logic for the pop-up modal here
   const [newEvent, setNewEvent] = useState({
     title: "",
@@ -132,6 +142,10 @@ export const AddEventModal = () => {
       });
       // Close the modal
       onClose();
+      // To realod the events page after a delay of 2 seconds.
+      setTimeout(() => {
+        navigate(0);
+      }, 2000);
     } catch (error) {
       // Show an error message
       toast({
@@ -252,12 +266,19 @@ export const AddEventModal = () => {
               <FormControl id="image" isRequired isInvalid={!isImageValid}>
                 <FormLabel>Image URL</FormLabel>
                 <Input
-                  type="text"
+                  placeholder="https://"
                   value={newEvent.image}
                   onChange={(e) => {
+                    let url = e.target.value;
+                    if (
+                      !url.startsWith("http://") &&
+                      !url.startsWith("https://")
+                    ) {
+                      url = "https://" + url;
+                    }
                     setNewEvent((prev) => ({
                       ...prev,
-                      image: !isError ? e.target.value : " ",
+                      image: url,
                     }));
                     setIsImageValid(true);
                   }}

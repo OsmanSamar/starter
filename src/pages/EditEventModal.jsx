@@ -14,6 +14,7 @@ import {
   useToast,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import { useLoaderData, useNavigate } from "react-router-dom";
 
 export const loader = async ({ params }) => {
@@ -25,23 +26,23 @@ export const loader = async ({ params }) => {
 };
 
 export const EditeventModal = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //Relaoed the page.
 
   const { event } = useLoaderData(); // gives the event data.
-
-  // this creates and initializes the state variable with the event data.
-  const [editEventData, setEditEventData] = useState(event);
-  console.log(event);
-
-  3; // Use the useEffect hook to get the Event data
-  useEffect(() => {
-    setEditEventData(event);
-  }, [event]); // only run the effect when the event changes.
 
   // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values.
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const toast = useToast(); // call the useToast hook here
+  const toast = useToast(); // call the useToast hook here.
+
+  //To creates and initializes the state variable with the event data.
+  const [editEventData, setEditEventData] = useState(event);
+  console.log(event);
+
+  // Use the useEffect hook to get the Event data
+  useEffect(() => {
+    setEditEventData(event);
+  }, [event]); // only run the effect when the event changes.
 
   const handleUpdate = async (e) => {
     e.preventDefault(); // Prevent the default browser behavior
@@ -59,18 +60,23 @@ export const EditeventModal = () => {
       } = editEventData;
       console.log(editEventData);
 
-      // To create an object with the data.
+      //  const [newCategoryIds, setNewCategoryIds] = useState(
+      //   editEventData.categoryIds
+      //  );
+
+      // To create an object with the data that we want to update.
       const eventData = {
         title,
         image,
         categoryIds: categoryIds.split(",").map((s) => parseInt(s)),
         description,
         location,
-        startTime: new Date(startTime),
-        endTime: new Date(endTime),
+        startTime: new Date(startTime).toISOString().slice(0, 16), //toISOString() method to convert a date object to the required format.
+        endTime: new Date(endTime).toISOString().slice(0, 16), //slice() method to remove the seconds and milliseconds from the string.
       };
+      console.log(eventData);
 
-      // send a PUT request to the backend API to update the data.
+      //To send a PUT request to the backend API to update the data.
       const response = await fetch(`http://localhost:3000/events/${event.id}`, {
         method: "PUT",
         headers: {
@@ -78,17 +84,23 @@ export const EditeventModal = () => {
         },
         body: JSON.stringify(eventData),
       });
+      // response.json();
 
       if (!response.ok) {
         throw new Error("Failed to update the data");
       }
 
-      // To handle the response.
+      //if (!response.ok) {
+      //  throw new Error(
+      //    `HTTP error! status: ${response.status}, message: ${response.statusText}`
+      //   );
+      // }
+
+      //To handle the response.
       const data = await response.json();
       console.log(data);
 
       // Show a success message.
-
       toast({
         // call the toast function here.
         title: "Event edited.",
@@ -98,14 +110,16 @@ export const EditeventModal = () => {
         position: "bottom-left",
         isClosable: true,
       });
+
       // Close the modal.
       onClose();
-      // reload the page.
-      //window.location.reload();
-      // navigate('/event');
 
-      navigate(0);
+      //To reload the page after a delay of 2 seconds.
+      setTimeout(() => {
+        navigate(0);
+      }, 2000);
     } catch (error) {
+      console.log(error);
       // Show an error message.
       toast({
         title: "An error occurred.",
