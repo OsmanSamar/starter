@@ -78,16 +78,28 @@
       "id": 5
     },
     {
-      "title": "sheep hugging",
+      "title": "Sheep hugging",
       "image": "https://image.freepik.com/free-photo/group-people-cooking-together_53876-64828.jpg",
       "categoryIds": [
         3
       ],
       "description": "Test Delete event",
       "location": "Nederland",
-      "startTime": "2023-12-13T14:37:00.000Z",
-      "endTime": "2023-12-14T14:37:00.000Z",
+      "startTime": "2023-12-13T14:37",
+      "endTime": "2023-12-14T14:37",
       "id": 6
+    },
+    {
+      "title": "A waking holiday",
+      "image": "https://th.bing.com/th/id/R.c88101f99eca0b7f2b900c17359c6fe5?rik=L%2fB0qYxSeV1X%2bw&riu=http%3a%2f%2fimages.unsplash.com%2fphoto-1593217188322-6a547f02ddb5%3fcrop%3dentropy%26cs%3dtinysrgb%26fit%3dmax%26fm%3djpg%26ixid%3dMnwxMjA3fDB8MXxzZWFyY2h8NHx8Zm9yd2FyZHx8MHx8fHwxNjI5MjQ5NzI5%26ixlib%3drb-1.2.1%26q%3d80%26w%3d1080&ehk=cjXFjlQQNT2gX3zeIW%2b8keGX7fbmhPSme3elJVaEn04%3d&risl=&pid=ImgRaw&r=0",
+      "categoryIds": [
+        1
+      ],
+      "description": "To tackle Mother Nature head on.",
+      "location": "Amsterdam",
+      "startTime": "2023-12-20T21:27:00.000Z",
+      "endTime": "2023-12-22T21:27:00.000Z",
+      "id": 7
     }
   ],
   "categories": [

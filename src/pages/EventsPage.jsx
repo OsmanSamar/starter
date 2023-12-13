@@ -16,10 +16,11 @@ import { useLoaderData, Link } from "react-router-dom";
 import { format, isValid } from "date-fns";
 import { AddEventModal } from "./AddEventModal";
 
+//import { CategoriesList } from "./CategoriesList";
+
 //To display the fetched events on the users’ screen
 export const loader = async () => {
   const events = await fetch("http://localhost:3000/events");
-
   const categories = await fetch("http://localhost:3000/categories");
 
   return {
@@ -30,13 +31,21 @@ export const loader = async () => {
 
 export const EventsPage = () => {
   const { events } = useLoaderData();
-
   const { categories } = useLoaderData();
 
-  //Create a state variable to store the search input,
+  11111; //////////////////////////////////////////////////
+
+  //const [selectedCategory, setSelectedCategory] = useState(null);
+  //const handleSelectCategory = (categoryId) => {
+  //  setSelectedCategory(categoryId);
+  // };
+
+  /////////////////////////////////////////////////////////////
+
+  //To create a state variable to store the search input,
   const [searchQuery, setSearchQuery] = useState("");
 
-  //Create a function to handle the search input,
+  //To create a function to handle the search input,
   const handleSearchInput = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -45,7 +54,7 @@ export const EventsPage = () => {
     setSearchQuery("");
   };
 
-  //Create a function to filter the events based on the search input
+  //To create a function to filter the events based on the search input
   const filterEvents = (events, categories) => {
     // store the result of the filterEvents function in a variable
     let filteredEvents = events.filter((event) => {
@@ -74,7 +83,7 @@ export const EventsPage = () => {
       );
     });
 
-    // map the filtered events to include the category names
+    //To map the filtered events to include the category names
     filteredEvents = filteredEvents.map((event) => {
       const categoryNames = event.categoryIds
         .map((categoryIds) => {
@@ -95,6 +104,12 @@ export const EventsPage = () => {
   return (
     <>
       <AddEventModal />
+
+      {/* <CategoriesList
+        categories={categories}
+        onSelectCategory={handleSelectCategory}
+      />  */}
+
       <Center
         margin="0.5rem 5%"
         display="flex"
@@ -139,21 +154,6 @@ export const EventsPage = () => {
             <FaSearch />
           </Button>
         </div>
-
-        {/*  <Input
-          placeholder=" 🔍 Search... "
-          width="40vw"
-          h="8vh"
-          borderRadius="10vh"
-          border="none"
-          minW={200}
-          padding="2"
-          margin="0.5rem 5%"
-          bg="#FFFFFF"
-          value={searchQuery}
-          onChange={handleSearchInput}
-        />
-        <CiSearch points="relative" right="100vh" />*/}
       </Center>
 
       <Heading

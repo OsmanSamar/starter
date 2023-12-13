@@ -26,11 +26,11 @@ export const loader = async ({ params }) => {
 };
 
 export const EditeventModal = () => {
-  const navigate = useNavigate(); //Relaoed the page.
+  const navigate = useNavigate(); //To relaoed the page.
 
-  const { event } = useLoaderData(); // gives the event data.
+  const { event } = useLoaderData(); //To gives the event data.
 
-  // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values.
+  //To call the useDisclosure hook and get the isOpen, onOpen, and onClose values.
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast(); // call the useToast hook here.
@@ -39,15 +39,15 @@ export const EditeventModal = () => {
   const [editEventData, setEditEventData] = useState(event);
   console.log(event);
 
-  // Use the useEffect hook to get the Event data
+  //Use the useEffect hook to get the Event data
   useEffect(() => {
     setEditEventData(event);
   }, [event]); // only run the effect when the event changes.
 
   const handleUpdate = async (e) => {
-    e.preventDefault(); // Prevent the default browser behavior
+    e.preventDefault(); //To prevent the default browser behavior of reloading the page when the form is submitted.
     try {
-      // To get the data from the form
+      //To get the data from the form
 
       const {
         title,
@@ -64,7 +64,7 @@ export const EditeventModal = () => {
       //   editEventData.categoryIds
       //  );
 
-      // To create an object with the data that we want to update.
+      //To create an object with the data that we want to update.
       const eventData = {
         title,
         image,
@@ -100,9 +100,9 @@ export const EditeventModal = () => {
       const data = await response.json();
       console.log(data);
 
-      // Show a success message.
+      //To show a success message.
       toast({
-        // call the toast function here.
+        //call the toast function here.
         title: "Event edited.",
         description: "Your event has been successfully edited.",
         status: "success",
@@ -111,7 +111,7 @@ export const EditeventModal = () => {
         isClosable: true,
       });
 
-      // Close the modal.
+      //Close the modal.
       onClose();
 
       //To reload the page after a delay of 2 seconds.
