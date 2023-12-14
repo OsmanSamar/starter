@@ -81,6 +81,16 @@ export const DeleteEvent = () => {
         position="absolute"
         bottom="1"
         right="calc(100% - 130px)"
+        left="2.5"
+        width="37%"
+        height="auto"
+        padding="10px"
+        fontSize="16px"
+        style={{
+          "@media only screen and (max-width: 600px)": {
+            maxWidth: "50%",
+          },
+        }}
         onClick={() => setIsOpen(true)}
       >
         Delete Event

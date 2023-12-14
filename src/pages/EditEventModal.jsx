@@ -125,16 +125,26 @@ export const EditeventModal = () => {
     <>
       <Button
         colorScheme="teal"
-        bg="#008080"
+        backgroundColor="#008080"
         boxShadow="0 5px 15px rgba(0,0,0,0.5)"
-        bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
+        backgroundImage="linear-gradient(0deg, #FF7F50, transparent)"
         position="absolute"
         bottom="1"
         right="2.5"
+        width="37%"
+        height="auto"
+        padding="10px"
+        fontSize="16px"
+        style={{
+          "@media only screen and (max-width: 600px)": {
+            maxWidth: "50%",
+          },
+        }}
         onClick={onOpen}
       >
         Edit an Event
       </Button>
+
       <Modal
         isOpen={isOpen}
         onClose={onClose}
