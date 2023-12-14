@@ -19,8 +19,6 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-//import validator from "validator";
-
 export const AddEventModal = () => {
   const navigate = useNavigate(); //Relaoed the page.
 
@@ -32,28 +30,6 @@ export const AddEventModal = () => {
 
   const toast = useToast(); // Call the useToast hook here
 
-  //////////////////////////////////////////////////////////////////
-  const [isError, setIsError] = useState(false);
-
-  //To handle any errors that might occur while loading the image.
-  const handleError = () => {
-    isError(true);
-  };
-
-  //////////////////////////////////////////////////////////////////////////
-  //To validate the URL
-
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const validate = (value) => {
-    if (validator.isURL(value)) {
-      setErrorMessage("Is Valid URL");
-    } else {
-      setErrorMessage("Is Not Valid URL");
-    }
-  };
-
-  /////////////////////////////////////////////////////////////////////////////////////
   // Add the state and logic for the pop-up modal here
   const [newEvent, setNewEvent] = useState({
     title: "",
@@ -290,24 +266,12 @@ export const AddEventModal = () => {
                   placeholder="https://"
                   value={newEvent.image}
                   onChange={(e) => {
-                    let url = e.target.value;
-                    if (!url) {
-                      setIsImageValid(false);
-                    } else if (
-                      !url.startsWith("http://") &&
-                      !url.startsWith("https://")
-                    ) {
-                      url = "https://" + url;
-                    }
-
                     setNewEvent((prev) => ({
                       ...prev,
-                      image: url,
+                      image: e.target.value,
                     }));
                     setIsImageValid(true);
-                    validate(e.target.value);
                   }}
-                  onError={handleError}
                 />
                 {!isImageValid && (
                   <FormErrorMessage>Image URL is required.</FormErrorMessage>

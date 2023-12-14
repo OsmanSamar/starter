@@ -20,7 +20,6 @@ export const loader = async ({ params }) => {
   };
 };
 
-////////////////////////
 export const DeleteEvent = () => {
   const navigate = useNavigate(); //Relaoed the page.
 
