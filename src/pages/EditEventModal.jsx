@@ -13,6 +13,7 @@ import {
   Input,
   useToast,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -29,6 +30,9 @@ export const EditeventModal = () => {
   const navigate = useNavigate(); //To relaoed the page.
 
   const { event } = useLoaderData(); //To gives the event data.
+
+  // To Make the pop-up modal responsive.
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   //To call the useDisclosure hook and get the isOpen, onOpen, and onClose values.
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -146,7 +150,11 @@ export const EditeventModal = () => {
       >
         Edit an Event
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={isSmallScreen ? "sm" : "md"}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader> Edit Event</ModalHeader>

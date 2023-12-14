@@ -14,6 +14,7 @@ import {
   useToast,
   useDisclosure,
   FormLabel,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -25,6 +26,9 @@ export const AddEventModal = () => {
 
   // Call the useDisclosure hook and get the isOpen, onOpen, and onClose values
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // To Make the pop-up modal responsive.
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   const toast = useToast(); // Call the useToast hook here
 
@@ -172,7 +176,11 @@ export const AddEventModal = () => {
       >
         Add event
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={isSmallScreen ? "sm" : "md"}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add a new event</ModalHeader>

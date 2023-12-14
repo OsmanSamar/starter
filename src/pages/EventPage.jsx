@@ -127,7 +127,7 @@ export const EventPage = () => {
                   StartTime:{" "}
                   {/* Check the validity of the date value before formatting it */}{" "}
                   {/* The eventData variable is initially set to null, and fetching data may take some time to load
-                     and trying to access a property of a null object will result in a runtime error.To avoid this error, the ?. */}
+                     and trying to access a property of a null object will result in a runtime error.use to avoid this error. */}
                   {isValid(new Date(eventData.startTime))
                     ? format(
                         new Date(eventData?.startTime),
@@ -185,7 +185,7 @@ export const EventPage = () => {
                       w="50px"
                       h="50px"
                       objectFit="cover"
-                      src="https://i.imgur.com/6M241Q8.png" // use a placeholder image URL
+                      src="https://i.imgur.com/6M241Q8.png"
                       alt="Unknown"
                       borderRadius="50%"
                     />

@@ -7,6 +7,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useToast,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -27,13 +28,16 @@ export const DeleteEvent = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const toast = useToast(); // call the useToast hook here.
+  // To Make the pop-up modal responsive.
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+  const toast = useToast(); //To call the useToast hook.
 
   const onClose = () => setIsOpen(false);
 
   const handleDelete = async () => {
     try {
-      // send the delete request to the server
+      //To send the delete request to the server
       const response = await fetch(`http://localhost:3000/events/${event.id}`, {
         method: "DELETE",
         headers: {
@@ -41,11 +45,11 @@ export const DeleteEvent = () => {
         },
       });
 
-      // handle the response
+      //To handle the response
       if (response.ok) {
         // Show a success message.
         toast({
-          // call the toast function here.
+          //To call the toast function.
           title: "Event deleted.",
           description: "Your event has been successfully deleted.",
           status: "success",
@@ -61,7 +65,7 @@ export const DeleteEvent = () => {
           navigate(-1);
         }, 2000);
       } else {
-        // show an error message
+        // show an error message.
         console.error("Failed to delete event.");
       }
     } catch (error) {
@@ -74,17 +78,19 @@ export const DeleteEvent = () => {
       <Button
         colorScheme="red"
         boxShadow="0 5px 15px rgba(0,0,0,0.5)"
-        //bgImg="linear-gradient(0deg, #FF7F50 , transparent)"
         position="absolute"
         bottom="1"
-        //right="200"
         right="calc(100% - 130px)"
         onClick={() => setIsOpen(true)}
       >
         Delete Event
       </Button>
 
-      <AlertDialog isOpen={isOpen} onClose={onClose}>
+      <AlertDialog
+        isOpen={isOpen}
+        onClose={onClose}
+        size={isSmallScreen ? "sm" : "md"}
+      >
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">

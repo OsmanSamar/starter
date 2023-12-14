@@ -16,7 +16,10 @@ import { useLoaderData, Link } from "react-router-dom";
 import { format, isValid } from "date-fns";
 import { AddEventModal } from "./AddEventModal";
 
-//import { CategoriesList } from "./CategoriesList";
+//////////////////
+
+import { CategoriesList } from "./CategoriesList";
+//////////////////////////////////////////////////////////
 
 //To display the fetched events on the users’ screen
 export const loader = async () => {
@@ -33,14 +36,15 @@ export const EventsPage = () => {
   const { events } = useLoaderData();
   const { categories } = useLoaderData();
 
-  11111; //////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////
+  //To filter based on categoryName
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  //const [selectedCategory, setSelectedCategory] = useState(null);
-  //const handleSelectCategory = (categoryId) => {
-  //  setSelectedCategory(categoryId);
-  // };
+  const handleSelectCategory = (categoryId) => {
+    setSelectedCategory(categoryId);
+  };
 
-  /////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
 
   //To create a state variable to store the search input,
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,6 +54,7 @@ export const EventsPage = () => {
     setSearchQuery(e.target.value);
   };
 
+  //To clear the searchbar.
   const handleClearSearch = () => {
     setSearchQuery("");
   };
@@ -104,12 +109,10 @@ export const EventsPage = () => {
   return (
     <>
       <AddEventModal />
-
-      {/* <CategoriesList
+      <CategoriesList
         categories={categories}
         onSelectCategory={handleSelectCategory}
-      />  */}
-
+      />{" "}
       <Center
         margin="0.5rem 5%"
         display="flex"
@@ -118,7 +121,6 @@ export const EventsPage = () => {
       >
         <div style={{ position: "relative" }}>
           <Input
-            //variant="flushed"
             placeholder="Search..."
             width="40vw"
             h="8vh"
@@ -155,7 +157,6 @@ export const EventsPage = () => {
           </Button>
         </div>
       </Center>
-
       <Heading
         textAlign="center"
         mt="2"
@@ -169,11 +170,9 @@ export const EventsPage = () => {
         {" "}
         List of events
       </Heading>
-
       {/* To check the length of the filteredEvents array
           if the length is zero, display a message to the user
            otherwise, use the map method to render the events*/}
-
       <Grid
         templateColumns={{
           //  sm: "repeat(1, 1fr)",
