@@ -30,6 +30,8 @@ export const EditeventModal = () => {
   const navigate = useNavigate(); //To relaoed the page.
 
   const { event } = useLoaderData(); //To gives the event data.
+  event.startTime = new Date(event.startTime).toISOString().slice(0, 16); //toISOString() method to convert a date object to the required format.
+  event.endTime = new Date(event.endTime).toISOString().slice(0, 16);
 
   // To Make the pop-up modal responsive.
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
@@ -41,7 +43,7 @@ export const EditeventModal = () => {
 
   //To creates and initializes the state variable with the event data.
   const [editEventData, setEditEventData] = useState(event);
-  console.log(event);
+  // console.log(event);
 
   //Use the useEffect hook to get the Event data
   useEffect(() => {
@@ -52,7 +54,6 @@ export const EditeventModal = () => {
     e.preventDefault(); //To prevent the default browser behavior of reloading the page when the form is submitted.
     try {
       //To get the data from the form
-
       const {
         title,
         image,
@@ -62,21 +63,11 @@ export const EditeventModal = () => {
         location,
         description,
       } = editEventData;
-      console.log(editEventData);
+      //console.log(editEventData);
 
-      //  const [newCategoryIds, setNewCategoryIds] = useState(
-      //   editEventData.categoryIds
-      //  );
-
-      //To create an object with the data that we want to update.
+      //To creates a copy of the editEventData object using the spread operator
       const eventData = {
-        title,
-        image,
-        categoryIds: categoryIds.split(",").map((s) => parseInt(s)),
-        description,
-        location,
-        startTime: new Date(startTime).toISOString().slice(0, 16), //toISOString() method to convert a date object to the required format.
-        endTime: new Date(endTime).toISOString().slice(0, 16), //slice() method to remove the seconds and milliseconds from the string.
+        ...editEventData,
       };
       console.log(eventData);
 
@@ -93,12 +84,6 @@ export const EditeventModal = () => {
       if (!response.ok) {
         throw new Error("Failed to update the data");
       }
-
-      //if (!response.ok) {
-      //  throw new Error(
-      //    `HTTP error! status: ${response.status}, message: ${response.statusText}`
-      //   );
-      // }
 
       //To handle the response.
       const data = await response.json();
@@ -157,7 +142,7 @@ export const EditeventModal = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader> Edit Event</ModalHeader>
+          <ModalHeader> Edit an Event</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleUpdate}>

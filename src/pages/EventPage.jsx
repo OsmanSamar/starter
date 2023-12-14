@@ -57,8 +57,8 @@ export const EventPage = () => {
     <>
       <Heading
         textAlign="center"
-        mb="12"
-        p="5"
+        mb="5"
+        p="4"
         bgGradient="linear(to-r, #FF7F50, transparent)"
         bgClip="text"
         fontSize="6xl"
@@ -75,9 +75,9 @@ export const EventPage = () => {
             borderRadius="xl"
             W="2xl"
             h="l"
-            mb="3"
+            mb="12"
             mt="10"
-            m="4"
+            m="20"
             p="8"
             bg="#008080"
             boxShadow="0 5px 15px rgba(0,0,0,0.5)"

@@ -16,11 +16,6 @@ import { useLoaderData, Link } from "react-router-dom";
 import { format, isValid } from "date-fns";
 import { AddEventModal } from "./AddEventModal";
 
-//////////////////
-
-import { CategoriesList } from "./CategoriesList";
-//////////////////////////////////////////////////////////
-
 //To display the fetched events on the users’ screen
 export const loader = async () => {
   const events = await fetch("http://localhost:3000/events");
@@ -33,18 +28,7 @@ export const loader = async () => {
 };
 
 export const EventsPage = () => {
-  const { events } = useLoaderData();
-  const { categories } = useLoaderData();
-
-  //////////////////////////////////////////////////////////////
-  //To filter based on categoryName
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
-  const handleSelectCategory = (categoryId) => {
-    setSelectedCategory(categoryId);
-  };
-
-  /////////////////////////////////////////////////////
+  const { events, categories } = useLoaderData();
 
   //To create a state variable to store the search input,
   const [searchQuery, setSearchQuery] = useState("");
@@ -109,21 +93,21 @@ export const EventsPage = () => {
   return (
     <>
       <AddEventModal />
-      <CategoriesList
-        categories={categories}
-        onSelectCategory={handleSelectCategory}
-      />{" "}
+
       <Center
         margin="0.5rem 5%"
         display="flex"
         justifyContent="center"
         alignItems="center"
       >
-        <div style={{ position: "relative" }}>
+        {/**  style={{ position: "relative" }} */}
+        <div>
           <Input
-            placeholder="Search..."
+            placeholder="Search event..."
             width="40vw"
             h="8vh"
+            mt="4"
+            mb="2"
             paddingRight="3rem"
             borderRadius="10vh"
             border="none"
@@ -135,11 +119,12 @@ export const EventsPage = () => {
           {searchQuery && (
             <Button
               top="30%"
+              bgColor="white"
               background="none"
               border="none"
               cursor="pointer"
               // position="absolute"
-              right="0.5rem"
+              // right="4"
               onClick={handleClearSearch}
             >
               <FaTimes />
@@ -149,9 +134,9 @@ export const EventsPage = () => {
             top="30%"
             background="none"
             border="none"
+            bgColor="white"
             cursor="pointer"
-            // position="absolute"
-            right="0.5rem"
+            //  position="absolute"
           >
             <FaSearch />
           </Button>

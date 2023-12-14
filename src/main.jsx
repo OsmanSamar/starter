@@ -6,8 +6,6 @@ import { EventsPage, loader as eventsLoader } from "./pages/EventsPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./components/Root";
 
-//import "./index.css";
-
 const router = createBrowserRouter([
   {
     path: "/",

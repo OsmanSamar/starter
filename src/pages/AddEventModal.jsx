@@ -40,6 +40,19 @@ export const AddEventModal = () => {
     isError(true);
   };
 
+  //////////////////////////////////////////////////////////////////////////
+  //To validate the URL
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validate = (value) => {
+    if (validator.isURL(value)) {
+      setErrorMessage("Is Valid URL");
+    } else {
+      setErrorMessage("Is Not Valid URL");
+    }
+  };
+
   /////////////////////////////////////////////////////////////////////////////////////
   // Add the state and logic for the pop-up modal here
   const [newEvent, setNewEvent] = useState({
@@ -278,17 +291,21 @@ export const AddEventModal = () => {
                   value={newEvent.image}
                   onChange={(e) => {
                     let url = e.target.value;
-                    if (
+                    if (!url) {
+                      setIsImageValid(false);
+                    } else if (
                       !url.startsWith("http://") &&
                       !url.startsWith("https://")
                     ) {
                       url = "https://" + url;
                     }
+
                     setNewEvent((prev) => ({
                       ...prev,
                       image: url,
                     }));
                     setIsImageValid(true);
+                    validate(e.target.value);
                   }}
                   onError={handleError}
                 />
