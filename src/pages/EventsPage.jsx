@@ -101,14 +101,14 @@ export const EventsPage = () => {
         alignItems="center"
       >
         {/**  style={{ position: "relative" }} */}
-        <div>
+        <div style={{ position: "relative" }}>
           <Input
             placeholder="Search event..."
             width="40vw"
             h="8vh"
             mt="4"
             mb="2"
-            paddingRight="3rem"
+            pr="3rem"
             borderRadius="10vh"
             border="none"
             minW={200}
@@ -117,29 +117,34 @@ export const EventsPage = () => {
             onChange={handleSearchInput}
           />
           {searchQuery && (
-            <Button
-              top="30%"
-              bgColor="white"
-              background="none"
-              border="none"
-              cursor="pointer"
-              // position="absolute"
-              // right="4"
+            <span
+              style={{
+                top: "48%",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                position: "absolute",
+                // left: "1",
+                //right: "22",
+              }}
               onClick={handleClearSearch}
             >
               <FaTimes />
-            </Button>
+            </span>
           )}
-          <Button
-            top="30%"
-            background="none"
-            border="none"
-            bgColor="white"
-            cursor="pointer"
-            //  position="absolute"
+          <span
+            style={{
+              top: "50%",
+              background: "none",
+              border: "none",
+              bgColor: "white",
+              cursor: "pointer",
+              position: "absolute",
+              left: "0",
+            }}
           >
             <FaSearch />
-          </Button>
+          </span>
         </div>
       </Center>
       <Heading
