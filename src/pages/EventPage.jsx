@@ -74,10 +74,10 @@ export const EventPage = () => {
           <Card
             borderRadius="xl"
             W="2xl"
-            h="l"
-            mb="12"
-            mt="10"
-            m="20"
+            h="xl"
+            mb="8"
+            mt="8"
+            m="16"
             p="8"
             bg="#008080"
             boxShadow="0 5px 15px rgba(0,0,0,0.5)"
@@ -110,20 +110,20 @@ export const EventPage = () => {
               src={eventData.image}
               alt={eventData.title}
             />
-            <CardBody fontFamily="bold">
+            <CardBody fontFamily="bold" mt="2">
               <Stack mt="2" pt="5px" textAlign="center">
                 <Text>
                   <Link to={`/event/${eventData.eventId}`}></Link>
                 </Text>
-                <Heading fontSize="l" mb="1" color="#ffffff">
+                <Heading fontSize="l" mb="2" color="#ffffff">
                   Title: <br /> {eventData?.title}
                 </Heading>
-                <Text fontSize="sm" mt="1" color="#0A0A0A">
+                <Text fontSize="sm" mt="2" color="#0A0A0A">
                   {/*  Category: {eventData.categoryIds}{" "}  */}
                   Category: {categoryNames}
                 </Text>
 
-                <Text fontSize="sm" color="gray.600" mt="1">
+                <Text fontSize="sm" color="gray.600">
                   StartTime:{" "}
                   {/* Check the validity of the date value before formatting it */}{" "}
                   {/* The eventData variable is initially set to null, and fetching data may take some time to load
@@ -135,7 +135,7 @@ export const EventPage = () => {
                       )
                     : "Invalid date"}
                 </Text>
-                <Text fontSize="sm" color="gray.600" mt="1">
+                <Text fontSize="sm" color="gray.600" mt="2">
                   {" "}
                   EndTime:{" "}
                   {isValid(new Date(eventData.endTime))
@@ -145,10 +145,10 @@ export const EventPage = () => {
                       )
                     : "Invalid date"}
                 </Text>
-                <Text fontSize="sm" mt="1" color="#F3E8EA">
+                <Text fontSize="sm" mt="2" color="#F3E8EA">
                   Description: {eventData.description}
                 </Text>
-                <Text fontSize="sm" mt="1" color="#F3E8EA">
+                <Text fontSize="sm" mt="2" color="#F3E8EA">
                   Location :{eventData?.location}
                 </Text>
 
@@ -158,12 +158,13 @@ export const EventPage = () => {
                     return (
                       <div key={user.id}>
                         {/* Display the user's name and image */}
-                        <Text fontSize="sm" mt="1" color="#F3E8EA">
+                        <Text fontSize="sm" mt="2" color="#F3E8EA">
                           Created by: {user.name}
                         </Text>
                         <Image
                           w="50px"
                           h="50px"
+                          mt="2"
                           objectFit="cover"
                           src={user.image}
                           alt={user.name}
@@ -178,7 +179,7 @@ export const EventPage = () => {
                 {!eventData.createdBy && (
                   <div>
                     {/* Display a default message and image */}
-                    <Text fontSize="sm" color="gray.400">
+                    <Text fontSize="sm" color="gray.400" mt="2">
                       Created by: Unknown
                     </Text>
                     <Image
