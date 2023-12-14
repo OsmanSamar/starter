@@ -124,8 +124,6 @@ export const EventsPage = () => {
                 border: "none",
                 cursor: "pointer",
                 position: "absolute",
-                // left: "1",
-                //right: "22",
               }}
               onClick={handleClearSearch}
             >
